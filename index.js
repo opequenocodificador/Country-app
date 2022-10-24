@@ -1,8 +1,8 @@
-// 1 - Tester le lien de l'API dans le navigateur (https://restcountries.com/v3.1/all)OK
+// 1 - Tester le lien de l'API dans le navigateur (https://restcountries.com/v3.1/all) OK
 
-// 2 - Créer une fonction pour "fetcher" les données, afficher les données dans la console.OK
+// 2 - Créer une fonction pour "fetcher" les données, afficher les données dans la console.
 
-// 3 - Passer les données à une variable
+// 3 - Passer les données à une variable OK
 
 // 4 - Créer une fonction d'affichage, et paramétrer l'affichage des cartes de chaque pays grace à la méthode MAP
 
@@ -12,50 +12,24 @@
 // 6 - Avec la méthode Slice gérer le nombre de pays affichés (inputRange.value)
 
 // 7 - Gérer les 3 boutons pour trier (méthode sort()) les pays
-const result = document.getElementById("result");
 const input = document.getElementById("inputSearch");
+let countriesContainer = document.querySelector(".countries_container");
 
-let country = [];
+let countryApp = [];
 
-async function countrySearch(inputSearch) {
-  await fetch(`https://restcountries.com/v3.1/all${inputSearch}`)
+async function fetchCountryApp() {
+  await fetch(`https://restcountries.com/v3.1/all`)
     .then((res) => res.json())
-    .then((data) => (country = data[0]));
-  //console.log(data);
+    .then((data) => (countryApp = data));
+  console.log(countryApp);
 }
+fetchCountryApp();
 
-function countryDisplay() {
-  if (country === null) {
-    result.innerHTML = "<h2>Aucun Résultat</h2>";
-  } else {
-    country.length = 24;
-
-    result.innerHTML = country
-      .map((Pays) => {
-        let CountryName = [];
-
-        for (let i = 1; i < 24; i++) {
-          if (Pays[`name${i}`]) {
-            let NameCountry = Pays[`name.common${i}`];
-            let NameCapital = Pays[`capital${i}`];
-            CountryName.push(`<li>${NameCountry} - ${NameCapital}</li>`);
-          }
-        }
-
-        return `
-      <li class="card">
-        <h2>${Pays.capital}</h2>
-        <p>${Pays.name.common}</p>
-        <img src=${Pays.flag.png} alt="photo ${Pays.capital}">
-        <ul>${CountryName.join("")}</ul>
-      </li>
-      `;
-      })
-      .join("");
-  }
-}
+countriesContainer.innerHTML = countryApp.map((pays) => `<h3>Bonjour<h3>`);
 
 input.addEventListener("input", (e) => {
-  countrySearch(e.target.value);
-  console.log(e.target.value);
+  fetchCountryApp(e.target.value);
 });
+
+//.then((data) => (countryApp = data));
+//console.log(countryApp);
