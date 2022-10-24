@@ -12,10 +12,12 @@
 // 6 - Avec la méthode Slice gérer le nombre de pays affichés (inputRange.value)
 
 // 7 - Gérer les 3 boutons pour trier (méthode sort()) les pays
-const input = document.getElementById("inputSearch");
-let countriesContainer = document.querySelector(".countries_container");
 
+const input = document.getElementById("inputSearch");
+const countriesContainer = document.querySelector(".countries_container");
 let countryApp = [];
+
+//Fonction Data
 
 async function fetchCountryApp() {
   await fetch(`https://restcountries.com/v3.1/all`)
@@ -25,11 +27,27 @@ async function fetchCountryApp() {
 }
 fetchCountryApp();
 
-countriesContainer.innerHTML = countryApp.map((pays) => `<h3>Bonjour<h3>`);
+//Fonction affichage
+
+function countriesDisplay() {
+  countriesContainer.innerHTML = countryApp.map(
+    (data) =>
+      `
+  <div class="Country">
+    <img src=${data.flags.png}>
+    <h3>${data[0].name.common}</h3>
+    <p>${data.capital[0]}</p>
+    <em>Population:${data.population} </em>
+  </div>
+`
+  );
+  console.log(countriesContainer);
+}
+countriesDisplay();
+
+//Addevent
 
 input.addEventListener("input", (e) => {
   fetchCountryApp(e.target.value);
+  console.log(e.target.value);
 });
-
-//.then((data) => (countryApp = data));
-//console.log(countryApp);
