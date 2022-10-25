@@ -15,6 +15,7 @@
 
 const input = document.getElementById("inputSearch");
 const countriesContainer = document.querySelector(".countries_container");
+const result = document.getElementById("result");
 let countryApp = [];
 
 //Fonction Data
@@ -30,18 +31,18 @@ fetchCountryApp();
 //Fonction affichage
 
 function countriesDisplay() {
-  countriesContainer.innerHTML = countryApp.map(
-    (data) =>
-      `
+  countriesContainer.innerHTML;
+  input.innerHTML = countryApp.map((data) => {
+    return `
   <div class="Country">
-    <img src=${data.flags.png}>
+    <img src=${data[0].flags.png}>
     <h3>${data[0].name.common}</h3>
-    <p>${data.capital[0]}</p>
-    <em>Population:${data.population} </em>
+    <p>${data[0].capital[0]}</p>
+    <em>Population:${data[0].population} </em>
   </div>
-`
-  );
-  console.log(countriesContainer);
+`;
+  });
+  console.log(countriesDisplay);
 }
 countriesDisplay();
 
@@ -49,5 +50,5 @@ countriesDisplay();
 
 input.addEventListener("input", (e) => {
   fetchCountryApp(e.target.value);
-  console.log(e.target.value);
+  //console.log(e.target.value);
 });
