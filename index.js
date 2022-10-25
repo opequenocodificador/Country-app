@@ -4,7 +4,7 @@
 
 // 3 - Passer les données à une variable OK
 
-// 4 - Créer une fonction d'affichage, et paramétrer l'affichage des cartes de chaque pays grace à la méthode MAP
+// 4 - Créer une fonction d'affichage, et paramétrer l'affichage des cartes de chaque pays grace à la méthode MAP OK
 
 // 5 - Récupérer ce qui est tapé dans l'input et filtrer (avant le map) les données
 //coutry.name.includes(inputSearch.value);
@@ -16,39 +16,43 @@
 const input = document.getElementById("inputSearch");
 const countriesContainer = document.querySelector(".countries_container");
 const result = document.getElementById("result");
-let countryApp = [];
+let countriesData = [];
 
 //Fonction Data
 
-async function fetchCountryApp() {
+async function fetchCountries() {
   await fetch(`https://restcountries.com/v3.1/all`)
     .then((res) => res.json())
-    .then((data) => (countryApp = data));
-  console.log(countryApp);
+    .then((data) => (countriesData = data));
+  console.log(countriesData);
+  countriesDisplay();
 }
-fetchCountryApp();
 
 //Fonction affichage
 
 function countriesDisplay() {
-  countriesContainer.innerHTML;
-  input.innerHTML = countryApp.map((data) => {
-    return `
-  <div class="Country">
-    <img src=${data[0].flags.png}>
-    <h3>${data[0].name.common}</h3>
-    <p>${data[0].capital[0]}</p>
-    <em>Population:${data[0].population} </em>
+  countriesContainer.innerHTML = countriesData
+    .map(
+      (country) =>
+        `
+  <div class="card">
+  <img src=${country.flags.svg}>
+  <h3>${country.translations.fra.common}</h3>
+  <h3>${country.capital}</h3>
+  <h3>Population: ${country.population}
   </div>
-`;
-  });
-  console.log(countriesDisplay);
+  `
+    )
+    .join("");
 }
-countriesDisplay();
 
 //Addevent
 
+//chargement de la logique de data avec l'affichage
+window.addEventListener("load", fetchCountries);
+
+//récupération des données de l'input pour le filter
 input.addEventListener("input", (e) => {
-  fetchCountryApp(e.target.value);
-  //console.log(e.target.value);
+  fetchCountries(e.target.value);
+  console.log(e.target.value);
 });

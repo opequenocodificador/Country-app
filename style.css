@@ -26,3 +26,22 @@ input[type="range"] {
   font-size: 1.2rem;
   transform: translateY(-3px);
 }
+
+.card{
+  max-width: 30%;
+  background: black;
+  margin: 0 auto;
+  border-radius: 20px;
+}
+
+.card img{
+  margin: 0 auto;
+  height: 100px;
+
+}
+
+.card h3{
+  color: white;
+  align-items: center;
+  text-align: center;
+}
