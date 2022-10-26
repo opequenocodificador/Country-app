@@ -9,13 +9,15 @@
 // 5 - Récupérer ce qui est tapé dans l'input et filtrer (avant le map) les données
 //coutry.name.includes(inputSearch.value); OK
 
-// 6 - Avec la méthode Slice gérer le nombre de pays affichés (inputRange.value)
+// 6 - Avec la méthode Slice gérer le nombre de pays affichés (inputRange.value) OK
 
 // 7 - Gérer les 3 boutons pour trier (méthode sort()) les pays
 
-const input = document.getElementById("inputSearch");
+const inputSearch = document.getElementById("inputSearch");
 const countriesContainer = document.querySelector(".countries_container");
-const result = document.getElementById("result");
+let inputRange = document.getElementById("inputRange");
+let rangeValue = document.getElementById("rangeValue");
+let card = document;
 let countriesData = [];
 
 //Fonction Data
@@ -31,20 +33,17 @@ async function fetchCountries() {
 //Fonction affichage
 
 function countriesDisplay() {
-  if (countriesData === null) {
-    countriesContainer.innerHTML = `<div class="card">
-    <h2>Pas de résultat</h2>
-    </div>
-    `;
-  } else {
-    countriesContainer.innerHTML = countriesData
-      .filter((country) =>
-        country.translations.fra.common.includes(input.value)
-      )
+  countriesContainer.innerHTML = countriesData
+    .filter((country) =>
+      country.translations.fra.common.includes(inputSearch.value)
+    )
+    .slice(0, inputRange.value)
 
-      .map(
-        (country) =>
-          `
+    .sort((a, b) => a.pays - b.pays)
+
+    .map(
+      (country) =>
+        `
   <div class="card">
   <img src=${country.flags.svg}>
   <h3>${country.translations.fra.common}</h3>
@@ -52,9 +51,8 @@ function countriesDisplay() {
   <h3>Population: ${country.population}
   </div>
   `
-      )
-      .join("");
-  }
+    )
+    .join("");
 }
 
 //Addevent
@@ -63,6 +61,14 @@ function countriesDisplay() {
 window.addEventListener("load", fetchCountries);
 
 //récupération des données de l'input pour le filter
-input.addEventListener("input", (e) => {
+inputSearch.addEventListener("input", (e) => {
   fetchCountries(e.target.value);
 });
+
+//rangevalue
+inputRange.addEventListener("input", () => {
+  countriesDisplay();
+  rangeValue.textContent = inputSearch.value;
+});
+
+//event click pour tri
